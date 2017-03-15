@@ -1,0 +1,99 @@
+﻿<Window x:Class="Pronderer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pronderer"
+        mc:Ignorable="d"
+        Title="Pronderer" Height="690" Width="825" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="8"></Setter>
+            <Setter Property="Padding" Value="1"></Setter>
+            <Setter Property="Background" Value="Transparent"></Setter>
+            <Setter Property="Foreground" Value="Yellow"></Setter>
+            <Setter Property="Panel.ZIndex" Value="100"></Setter>
+        </Style>
+        <Style TargetType="Canvas">
+            <Setter Property="Focusable" Value="True"></Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Canvas Name="XozCanvas" Margin="5" Width="800" Height="640" MouseWheel="XozCanvas_MouseWheel" 
+                KeyDown="Xoz_KeyDown" >
+            <Grid Canvas.Left="0" Canvas.Top="0" Panel.ZIndex="1000" Background="Black">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Label x:Name="MainScreenLabel" Grid.Row="0" Foreground="White" FontWeight="Bold"
+                       FontSize="10" Content="Main screen" Grid.ColumnSpan="2"/>
+                <Label Name="MainFpsCounter" Grid.Row="1" FontWeight="Bold">not running</Label>
+
+                <Label x:Name="XozRenderingModeLabel" Grid.Row="2" Content="mode:"/>
+                <Label x:Name="XozRenderingModeValue" Grid.Row="2" Grid.Column="1" Content="wireframe"/>
+
+                <Label Name="XozLoadedModel" Grid.Row="3" Grid.ColumnSpan="2">House</Label>
+                
+                <Label Grid.Row="5" Grid.ColumnSpan="2"> Clipping</Label>
+                
+                <Label x:Name="XozScaleLabel" Grid.Row="6" Content="  scale:"/>
+                <Label x:Name="XozScaleValue" Grid.Row="6" Grid.Column="1" Content="1.0"/>
+
+                <Label x:Name="XozNearLabel" Grid.Row="7" Content="  near:" />
+                <Label x:Name="XozNearValue" Grid.Row="7" Grid.Column="1" Content="1.0"/>
+
+                <Label x:Name="XozFarLabel" Grid.Row="8" Content="  far:" />
+                <Label x:Name="XozFarValue" Grid.Row="8" Grid.Column="1" Content="1.0"/>
+
+                <Label x:Name="XozLeftLabel" Grid.Row="9" Content="  left:" />
+                <Label x:Name="XozLeftValue" Grid.Row="9" Grid.Column="1" Content="1.0"/>
+
+                <Label x:Name="XozRightLabel" Grid.Row="10" Content="  right:" />
+                <Label x:Name="XozRightValue" Grid.Row="10" Grid.Column="1" Content="1.0"/>
+
+                <Label x:Name="XozTopLabel" Grid.Row="11" Content="  top:" />
+                <Label x:Name="XozTopValue" Grid.Row="11" Grid.Column="1" Content="1.0"/>
+
+                <Label x:Name="XozBottomLabel" Grid.Row="12" Content="  bottom:"/>
+                <Label x:Name="XozBottomValue" Grid.Row="12" Grid.Column="1" Content="1.0"/>
+
+                <Label Grid.Row="15" Grid.ColumnSpan="2">Camera</Label>
+
+                <Label x:Name="XozZoomLabel" Grid.Row="16" Content="  zoom:"/>
+                <Label x:Name="XozZoomValue" Grid.Row="16" Grid.Column="1" Content="1.0"/>
+
+
+            </Grid>
+
+            <Image Name="MainScreen" Height="640" Width="800" Panel.ZIndex="10">
+
+            </Image>
+        </Canvas>
+    </Grid>
+</Window>
