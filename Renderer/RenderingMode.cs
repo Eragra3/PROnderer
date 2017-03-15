@@ -4,6 +4,7 @@
     {
         Normal,
         Wireframe,
+        Vectors,
         Test
     }
 }

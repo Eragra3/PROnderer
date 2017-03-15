@@ -89,7 +89,7 @@ namespace Renderer.Helpers
         public static Vector<double> NormalizeHomogenous(Vector<double> vector)
         {
             Vector<double> vec = vector / vector[3];
-            return new DenseVector(new double[] { vec[0], vec[2], vec[2] });
+            return new DenseVector(new double[] { vec[0], vec[1], vec[2] });
         }
     }
 }

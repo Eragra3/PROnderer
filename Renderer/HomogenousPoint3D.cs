@@ -10,15 +10,20 @@ namespace Renderer
 {
     public class HomogenousPoint3D : DenseVector
     {
-        public HomogenousPoint3D(Vector3D point) : base(4)
+        public HomogenousPoint3D(Vector3D vector) : base(4)
         {
-            double[] values = new double[] { point.X, point.Y, point.Z, 1.0 };
-            this.SetValues(values);
+            this[0] = vector.X;
+            this[1] = vector.Y;
+            this[2] = vector.Z;
+            this[3] = 1.0;
         }
+
         public HomogenousPoint3D(Point3D point) : base(4)
         {
-            double[] values = new double[] { point.X, point.Y, point.Z, 1.0 };
-            this.SetValues(values);
+            this[0] = point.X;
+            this[1] = point.Y;
+            this[2] = point.Z;
+            this[3] = 1.0;
         }
     }
 }

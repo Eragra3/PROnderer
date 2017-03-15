@@ -154,8 +154,8 @@ namespace Pronderer
                 RenderingMode = RenderingMode.Normal,
                 CameraSettings = new CameraSettings
                 {
-                    Near = 1,
-                    Far = -10,
+                    Near = 7,
+                    Far = -100,
                     Left = -50,
                     Right = 50,
                     Top = 50,
@@ -168,6 +168,11 @@ namespace Pronderer
 
         private void XozCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
         {
+            if (e.Delta == 0)
+            {
+                return;
+            }
+
             double change = SCALE_MWHEEL_SPEED * (e.Delta / Math.Abs(e.Delta));
 
             change *= GetMagnification();
@@ -231,6 +236,14 @@ namespace Pronderer
             {
                 this.xozSceneSettings.CameraSettings.Far -= change;
             }
+            if (e.Key == Key.NumPad9)
+            {
+                this.xozSceneSettings.CameraSettings.Near += change;
+            }
+            if (e.Key == Key.NumPad6)
+            {
+                this.xozSceneSettings.CameraSettings.Near -= change;
+            }
             if (e.Key == Key.F1)
             {
                 this.xozSceneSettings.RenderingMode = RenderingMode.Normal;
@@ -238,6 +251,10 @@ namespace Pronderer
             else if (e.Key == Key.F2)
             {
                 this.xozSceneSettings.RenderingMode = RenderingMode.Wireframe;
+            }
+            else if (e.Key == Key.F3)
+            {
+                this.xozSceneSettings.RenderingMode = RenderingMode.Vectors;
             }
             else if (e.Key == Key.F5)
             {
@@ -259,6 +276,18 @@ namespace Pronderer
             else if (e.Key == Key.D4)
             {
                 LoadFile("Objects/axis.obj");
+            }
+            else if (e.Key == Key.D5)
+            {
+                LoadFile("Objects/cube.obj");
+            }
+            else if (e.Key == Key.D6)
+            {
+                LoadFile("Objects/offset_cube.obj");
+            }
+            else if (e.Key == Key.D7)
+            {
+                LoadFile("Objects/sphere.obj");
             }
 
             UpdateLabels();

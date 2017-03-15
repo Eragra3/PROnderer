@@ -47,12 +47,16 @@ namespace Renderer
                     return RenderNormal(settings);
                 case RenderingMode.Wireframe:
                     return RenderWireframe(settings);
+                case RenderingMode.Vectors:
+                    return RenderVectors(settings);
                 case RenderingMode.Test:
                     return RenderTestScreen(settings);
                 default:
                     throw new ArgumentException("Invalid rendering mode", nameof(settings.RenderingMode));
             }
         }
+
+        public abstract int[] RenderVectors(SceneSettings settings);
 
         public abstract int[] RenderNormal(SceneSettings settings);
 
@@ -113,7 +117,7 @@ namespace Renderer
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void DrawLine(int[] frame, int color, Point2D p1, Point2D p2)
+        protected void DrawLine_Screen(int[] frame, int color, Point2D p1, Point2D p2)
         {
             double x0 = p1.X;
             double y0 = p1.Y;
@@ -146,10 +150,12 @@ namespace Renderer
                 {
                     Swap(ref tempX, ref tempY);
                 }
-                int index = JaggedToSingle(tempX, tempY);
-                if (index < 0 || index >= frame.Length)
-                    return;
-                frame[index] = color;
+
+                int index = JaggedToSingle(x, y);
+                if (index >= 0 && index < frame.Length)
+                {
+                    frame[index] = color;
+                }
 
                 err -= dY;
                 if (err < 0)
@@ -163,26 +169,29 @@ namespace Renderer
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void DrawLine(Vector3D u, Vector3D v, CameraSettings cameraSettings, int[] frame)
         {
-            var scaledU = u.ScaleBy(cameraSettings.Zoom);
-            var scaledV = v.ScaleBy(cameraSettings.Zoom);
+            //var scaledU = u.ScaleBy(cameraSettings.Zoom);
+            //var scaledV = v.ScaleBy(cameraSettings.Zoom);
 
-            double x0 = scaledU.X + this.width / 2;
-            double y0 = scaledU.Z + this.height / 2;
-            double x1 = scaledV.X + this.width / 2;
-            double y1 = scaledV.Z + this.height / 2;
+            //double x0 = scaledU.X + this.width / 2;
+            //double y0 = scaledU.Z + this.height / 2;
+            //double x1 = scaledV.X + this.width / 2;
+            //double y1 = scaledV.Z + this.height / 2;
+            (double x0, double y0) = CameraToScreen(u.X, u.Y);
+            (double x1, double y1) = CameraToScreen(v.X, v.Y);
 
-            if ((x0 < 0 || x0 >= this.width
-                || y0 < 0 || y0 >= this.height)
-                && (x1 < 0 || x1 >= this.width
-                || y1 < 0 || y1 >= this.height))
-            {
-                return;
-            }
+            //todo check if in camera space
+            //if ((x0 < 0 || x0 >= this.width
+            //    || y0 < 0 || y0 >= this.height)
+            //    && (x1 < 0 || x1 >= this.width
+            //    || y1 < 0 || y1 >= this.height))
+            //{
+            //    return;
+            //}
 
             var p0 = new Point2D(x0, y0);
             var p1 = new Point2D(x1, y1);
 
-            DrawLine(frame, Colors.BLACK, p0, p1);
+            DrawLine_Screen(frame, Colors.BLACK, p0, p1);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -205,6 +214,28 @@ namespace Renderer
             int inlineX = x;
             int inlineY = y * this.width;
             return inlineX + inlineY;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int CameraToScreenSingle(double x, double y)
+        {
+            x += 0.5;
+            x *= this.width / 2;
+            y += 0.5;
+            y *= this.height / 2;
+
+            return JaggedToSingle(x, y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public (double, double) CameraToScreen(double x, double y)
+        {
+            x += 0.5;
+            x *= this.width / 2;
+            y += 0.5;
+            y *= this.height / 2;
+
+            return (x, y);
         }
     }
 }

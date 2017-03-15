@@ -148,9 +148,9 @@ namespace Renderer
             }
 
             var M = Transformation3DMatrix.GetPerspectiveProjectionMatrix(settings.CameraSettings);
-            //var S = Transformation3DMatrix.GetScalingMatrix(settings.CameraSettings);
+            var S = Transformation3DMatrix.GetScalingMatrix(settings.CameraSettings);
 
-            //M *= S;
+            var T = M * S;
 
             foreach (Triangle triangle in this.model.Triangles)
             {
@@ -158,9 +158,9 @@ namespace Renderer
                 var p2Hom = new HomogenousPoint3D(triangle.Vertex2.Vertex);
                 var p3Hom = new HomogenousPoint3D(triangle.Vertex3.Vertex);
 
-                Vector<double> c1 = p1Hom * M;
-                Vector<double> c2 = p2Hom * M;
-                Vector<double> c3 = p3Hom * M;
+                Vector<double> c1 = p1Hom * T;
+                Vector<double> c2 = p2Hom * T;
+                Vector<double> c3 = p3Hom * T;
 
                 Vector<double> cN1 = NormalizeHomogenous(c1);
                 Vector<double> cN2 = NormalizeHomogenous(c2);
@@ -186,6 +186,41 @@ namespace Renderer
             return x >= -1 && x <= 1
                 && y >= -1 && y <= 1
                 && z >= 0 && z <= 1;
+        }
+
+        public override int[] RenderVectors(SceneSettings settings)
+        {
+            CameraSettings camera = settings.CameraSettings;
+
+            int[] frame = new int[this.height * this.width];
+            for (int i = 0; i < frame.Length; i++)
+            {
+                frame[i] = Colors.WHITE;
+            }
+
+            var M = Transformation3DMatrix.GetPerspectiveProjectionMatrix(settings.CameraSettings);
+            var S = Transformation3DMatrix.GetScalingMatrix(settings.CameraSettings);
+
+            var T = M * S;
+
+            foreach (Vector3D vertex in this.model.Vertices)
+            {
+                var p1Hom = new HomogenousPoint3D(vertex);
+
+                Vector<double> c1 = p1Hom * T;
+
+                Vector<double> cN1 = NormalizeHomogenous(c1);
+
+                var p1 = new Vector3D(cN1);
+
+                int index = CameraToScreenSingle(p1.X, p1.Y);
+                if (index >= 0 && index < frame.Length)
+                {
+                    frame[index] = Colors.BLACK;
+                }
+            }
+
+            return frame;
         }
     }
 }

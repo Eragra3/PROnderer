@@ -53,17 +53,14 @@ namespace Renderer.Helpers
             //column major order (column by column)
             double[] values = new double[]
             {
-                (2*cs.Near)/(cs.Right-cs.Left),0,(cs.Right+cs.Left)/(cs.Right-cs.Left),0,
-                0,(2*cs.Near)/(cs.Top-cs.Bottom),(cs.Top+cs.Bottom)/(cs.Top-cs.Bottom),0,
-                0,0,(cs.Near+cs.Far)/(cs.Near-cs.Far),(2*cs.Near*cs.Far)/(cs.Near-cs.Far),
-                0,
-                0,
-                -1,
-                0
+                (2*cs.Near)/(cs.Right-cs.Left)  ,0                              ,(cs.Right+cs.Left)/(cs.Right-cs.Left)  ,0,
+                0                               ,(2*cs.Near)/(cs.Top-cs.Bottom) ,(cs.Top+cs.Bottom)/(cs.Top-cs.Bottom)  ,0,
+                0                               ,0                              ,(cs.Near+cs.Far)/(cs.Near-cs.Far)      ,(2*cs.Near*cs.Far)/(cs.Near-cs.Far),
+                0                               ,0                              ,-1                                     ,0
             };
 
-            //var temp = new Transformation3DMatrix(values).Transpose();
-            //var data = temp.ToColumnMajorArray();
+            //var t = new Transformation3DMatrix(values).Transpose();
+            //return new Transformation3DMatrix(y);
 
             return new Transformation3DMatrix(values);
         }
